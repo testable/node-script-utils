@@ -1,6 +1,6 @@
 # Testable Script Utilities
 
-Helpful utilities for local testing when defining [Testable](https://testable.io) [Webdriver.io](https://www.webdriver.io) or Node.js scripts. Provides stubs for all the Testable specific APIs that are otherwise only available at runtime during test execution.
+Helpful utilities for local testing when defining [Testable](https://testable.io) [Webdriver.io](http://www.webdriver.io) or Node.js scripts. Provides stubs for all the Testable specific APIs that are otherwise only available at runtime during test execution.
 
 ## Installation
 
