@@ -88,8 +88,8 @@ Examples:
 var log = require('testable-utils').log;
 
 log.info('Some useful info');
-log.error('Whoops something went wrong!');
-log.fatal('Something went really wrong, let's abort the entire test!!');
+log.error('Whoops something went wrong');
+log.fatal('Something went really wrong, let's abort the entire test');
 ```
 
 ### Execution Info
