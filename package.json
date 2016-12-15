@@ -1,7 +1,7 @@
 {
   "name": "testable-utils",
-  "version": "0.0.6",
-  "description": "Utilities for Testable Node.js scripts",
+  "version": "0.0.7",
+  "description": "Utilities for Testable scripts",
   "author": "Avi Stramer",
   "keywords": [
     "testable"
