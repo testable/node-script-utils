@@ -1,6 +1,11 @@
 # Testable Script Utilities
 
-Helpful utilities for local testing when defining [Testable](https://testable.io) [Webdriver.io](http://www.webdriver.io) or Node.js scripts. Provides stubs for all the Testable specific APIs that are otherwise only available at runtime during test execution.
+A set of utility APIs for use while running [Testable](https://testable.io) scenarios ([Webdriver.io](http://www.webdriver.io) or Node.js script).
+
+* Custom Metrics
+* Stopwatch
+* Logging
+* Execution Info
 
 ## Installation
 
@@ -10,9 +15,9 @@ Available on the public NPM registry as `testable-utils`.
 npm install testable-utils --save
 ```
 
-## Local Execution
+## Local Testing
 
-When you run your script locally, any calls to Testable APIs will print to the console. During test execution via [Testable](https://testable.io) the API calls integrate as appropriate.
+When you run your script locally, any calls to Testable APIs will print to the console. During actual test execution via [Testable](https://testable.io) test runners the API calls integrate as expected.
 
 ## APIs
 
