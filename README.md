@@ -62,9 +62,9 @@ var results = require('testable-utils').results;
 results().histogram('httpResponseCodes', 200);
 ```
 
-### Timing
+### Stopwatch
 
-Utility API to time how long a piece of code takes to execute and capture the result as a Testable metric.
+Utility API to time how long a piece of code takes to execute and capture as a Testable metric.
 
 For example:
 
@@ -87,9 +87,9 @@ Examples:
 ```javascript
 var log = require('testable-utils').log;
 
-log.info('Some useful info');
-log.error('Whoops something went wrong');
-log.fatal('Something went really wrong, let's abort the entire test');
+log.info("Some useful info");
+log.error("Whoops something went wrong");
+log.fatal("Something went really wrong, lets abort the entire test");
 ```
 
 ### Execution Info
