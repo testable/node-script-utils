@@ -1,0 +1,19 @@
+{
+  "name": "testable-utils",
+  "version": "0.0.1",
+  "description": "Utilities for Testable Node.js scripts",
+  "author": "Avi Stramer",
+  "keywords": [
+    "testable"
+  ],
+  "license": "MIT",
+  "repository": "testable/node-script-utils",
+  "homepage": "https://github.com/testable/node-script-utils",
+  "bugs": {
+    "url": "https://github.com/testable/node-script-utils/issues"
+  },
+  "main": "lib/main.js",
+  "files": [
+    "lib/"
+  ]
+}
