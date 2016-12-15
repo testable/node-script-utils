@@ -1,6 +1,6 @@
 {
   "name": "testable-utils",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Utilities for Testable Node.js scripts",
   "author": "Avi Stramer",
   "keywords": [
@@ -15,5 +15,8 @@
   "main": "lib/main.js",
   "files": [
     "lib/"
-  ]
+  ],
+  "dependencies": {
+    "lodash": "^4.17.2"
+  }
 }
