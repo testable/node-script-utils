@@ -112,3 +112,54 @@ var info = require('testable-utils').info;
 // true when run locally, false when run on testable
 var isLocal = require('testable-utils').isLocal;
 ```
+
+### CSV
+
+Read one or more rows from a CSV file. When run locally it looks for the CSV file on the local filesystem. The API is as described in the [Testable documentation](https://testable.io/documentation/scripts/upload-data.html#datatable-module).
+
+For the below examples we will use a `data.csv` file:
+
+```
+Symbol,Price
+MSFT,100
+IBM,101
+GOOG,600
+```
+
+See the [Testable documentation](https://testable.io/documentation/scripts/upload-data.html#datatable-module) for full details of the options.
+
+#### Get row by index
+
+Gets a row from the CSV file by index. **Indices start at 1**.
+
+```javascript
+var dataTable = require('testable-utils').dataTable;
+dataTable.open('data.csv').get(1, function(data) {
+	// data example:
+	// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+});
+```
+
+#### Get random row
+
+Gets a random row from the CSV file
+
+```javascript
+var dataTable = require('testable-utils').dataTable;
+dataTable.open('data.csv').random(function(data) {
+	// data example:
+	// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+});
+```
+
+#### Iterate CSV
+
+Iterate over the CSV file, retrieving 1 or more rows. The iterator is global across the entire test execution. See [Testable documentation](https://testable.io/documentation/scripts/upload-data.html#datatable-module) for full set of options.
+
+```javascript
+var dataTable = require('testable-utils').dataTable;
+dataTable.open('data.csv').next(function(data) {
+	// data example:
+	// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+});
+```
