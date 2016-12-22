@@ -171,10 +171,10 @@ var dataTable = require('testable-utils').dataTable;
 dataTable
 	.open('data.csv')
 	.next()
-	.then(function(result) {
+	.then(function(results) {
 		// Example:
-		// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
-		console.log('Symbol: ' + result.data['Symbol']);
+		// [ { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] } ]
+		console.log('Symbol: ' + results[0].data['Symbol']);
 	});
 ```
 
@@ -187,8 +187,8 @@ var symbol = browser.call(function() {
 	return dataTable
 		.open('data.csv')
 		.next()
-		.then(function(result) {
-			return result.data['Symbol'];
+		.then(function(results) {
+			return results[0].data['Symbol'];
 		});
 });
 ```
