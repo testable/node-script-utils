@@ -180,7 +180,7 @@ dataTable
 
 #### Webdriver.io Compatibility
 
-Webdriver.io expects synchronous code. To handle async code, the <a target="blank" href="http://webdriver.io/api/utility/call.html">call()</a> function is provided.
+Webdriver.io expects synchronous code. To handle async code like this CSV API, the <a target="blank" href="http://webdriver.io/api/utility/call.html">call()</a> function is provided.
 
 ```javascript
 var symbol = browser.call(function() {
