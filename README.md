@@ -130,36 +130,63 @@ See the [Testable documentation](https://testable.io/documentation/scripts/uploa
 
 #### Get row by index
 
-Gets a row from the CSV file by index. **Indices start at 1**.
+Gets a row from the CSV file by index. **Indices start at 1**. `get()` return a `Promise`.
 
 ```javascript
 var dataTable = require('testable-utils').dataTable;
-dataTable.open('data.csv').get(1, function(data) {
-	// data example:
-	// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
-});
+dataTable
+	.open('data.csv')
+	.get(1)
+	.then(function(result) {
+		// Example:
+		// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+		console.log('Symbol: ' + result.data['Symbol']);
+	});
 ```
 
 #### Get random row
 
-Gets a random row from the CSV file
+Gets a random row from the CSV file. `random()` return a `Promise`.
 
 ```javascript
 var dataTable = require('testable-utils').dataTable;
-dataTable.open('data.csv').random(function(data) {
-	// data example:
-	// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
-});
+dataTable
+	.open('data.csv')
+	.random()
+	.then(function(result) {
+		// Example:
+		// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+		console.log('Symbol: ' + result.data['Symbol']);
+	});
 ```
 
 #### Iterate CSV
 
-Iterate over the CSV file, retrieving 1 or more rows. The iterator is global across the entire test execution. See [Testable documentation](https://testable.io/documentation/scripts/upload-data.html#datatable-module) for full set of options.
+Iterate over the CSV file, retrieving 1 or more rows. The iterator is global across the entire test execution. See [Testable documentation](https://testable.io/documentation/scripts/upload-data.html#datatable-module) for full set of options. `next()` return a `Promise`.
 
 ```javascript
 var dataTable = require('testable-utils').dataTable;
-dataTable.open('data.csv').next(function(data) {
-	// data example:
-	// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+dataTable
+	.open('data.csv')
+	.next()
+	.then(function(result) {
+		// Example:
+		// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+		console.log('Symbol: ' + result.data['Symbol']);
+	});
+```
+
+#### Webdriver.io Compatibility
+
+Webdriver.io expects synchronous code. To handle async code, the <a target="blank" href="http://webdriver.io/api/utility/call.html">call()</a> function is provided.
+
+```javascript
+var symbol = browser.call(function() {
+	return dataTable
+		.open('data.csv')
+		.next()
+		.then(function(result) {
+			return result.data['Symbol'];
+		});
 });
 ```
