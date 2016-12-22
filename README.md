@@ -115,7 +115,9 @@ var isLocal = require('testable-utils').isLocal;
 
 ### CSV
 
-Read one or more rows from a CSV file. When run locally it looks for the CSV file on the local filesystem. The API is as described in the [Testable documentation](https://testable.io/documentation/scripts/upload-data.html#datatable-module).
+Read one or more rows from a CSV file. When run locally it looks for the CSV file on the local filesystem. When run on Testable, make sure you upload the CSV to the scenario.
+
+The API is as described in the [Testable documentation](https://testable.io/documentation/scripts/upload-data.html#datatable-module).
 
 For the below examples we will use a `data.csv` file:
 
