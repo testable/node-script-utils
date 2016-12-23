@@ -41,7 +41,7 @@ results().counter('slowRequests', 1, 'requests');
 
 #### Timing
 
-`results([resource], [url]).timing(name, timeMs, [units])`
+`results([resource], [url]).timing(name, timing, [units])`
 
 Capture a timing. Units defaults to `ms`. Resource and url default to blank and are included with the "overall results". Testable will calculate various aggergations like min, max, average, standard deviation, and the percentiles defined in your test configuration.
 
@@ -74,13 +74,15 @@ Utility API to time how long a piece of code takes to execute and capture as a T
 For example:
 
 ```javascript
-var timing = require('testable-utils').timing;
+var stopwatch = require('testable-utils').stopwatch;
 
-timing(function(done) {
+stopwatch(function(done) {
   // some code we want to time here
   // call done() once it is done, can be async
   done();
-}, 'myCustomTimer');
+}, 'myCustomTimer').then(function() {
+	// called after done() is invoked
+});
 ```
 
 ### Logging
@@ -92,6 +94,7 @@ Examples:
 ```javascript
 var log = require('testable-utils').log;
 
+log.debug("Some useful debug");
 log.info("Some useful info");
 log.error("Whoops something went wrong");
 log.fatal("Something went really wrong, lets abort the entire test");
@@ -178,17 +181,85 @@ dataTable
 	});
 ```
 
-#### Webdriver.io Compatibility
+## Webdriver.io Commands
 
-Webdriver.io expects synchronous code. To handle async code like this CSV API, the <a target="blank" href="http://webdriver.io/api/utility/call.html">call()</a> function is provided.
+All of the API calls above are registered as <a target="_blank" href="http://webdriver.io/guide/usage/customcommands.html">custom commands</a> with Webdriver.io.
 
-```javascript
-var symbol = browser.call(function() {
-	return dataTable
-		.open('data.csv')
-		.next()
-		.then(function(results) {
-			return results[0].data['Symbol'];
-		});
-});
-```
+Simply include `var testableUtils = require('testable-utils');` in you test spec or in one of the <a target="_blank" href="http://webdriver.io/guide/testrunner/configurationfile.html">configuration file hooks</a> like `onPrepare()` and all the below custom commands will automatically get registered.
+
+Note that all the Webdriver.io commands can be used in a synchronous fashion.
+
+<table>
+	<tr>
+		<th>Webdriver.io</th>
+		<th>testable-utils</th>
+	</tr>
+	<tr>
+		<td><pre>browser.testableInfo()</pre></td>
+		<td><a href="#execution-info"><pre>info</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>var result = browser.testableCsvGet(csvFile, index);</pre></td>
+		<td><a href="#get-row-by-index"><pre>dataTable
+  .open(csvFile)
+  .get(index)
+  .then(function(result) { ... }</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>var result = browser.testableCsvRandom(csvFile);</pre></td>
+		<td><a href="#get-random-row"><pre>dataTable
+  .open(csvFile)
+  .random()
+  .then(function(result) { ... }</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>var results = browser.testableCsvNext(csvFile[, options]);</pre></td>
+		<td><a href="#get-random-row"><pre>dataTable
+  .open(csvFile)
+  .random([options])
+  .then(function(results) { ... }</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>var result = browser.testableResult([resource], [url]);
+browser.testableCounter(name, [increment], [units]);</pre></td>
+		<td><a href="#counter"><pre>results([resource], [url]).counter(name, [increment], [units]);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>var result = browser.testableResult([resource], [url]);
+browser.testableTiming(name, timing, [units]);</pre></td>
+		<td><a href="#timing"><pre>results([resource], [url]).timing(name, timing, [units]);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>var result = browser.testableResult([resource], [url]);
+browser.testableHistogram(name, bucket, [increment]);</pre></td>
+		<td><a href="#histogram"><pre>results([resource], [url]).histogram(name, bucket, [increment]);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>browser.testableLogDebug(msg);</pre></td>
+		<td><a href="#logging"><pre>log.debug(msg);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>browser.testableLogInfo(msg);</pre></td>
+		<td><a href="#logging"><pre>log.info(msg);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>browser.testableLogError(msg);</pre></td>
+		<td><a href="#logging"><pre>log.error(msg);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>browser.testableLogFatal(msg);</pre></td>
+		<td><a href="#logging"><pre>log.fatal(msg);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>// blocks until done() is called
+browser.testableStopwatch(function(done) {
+  // some code to time
+  done();
+}, 'myCustomMetricMs');</pre></td>
+		<td><a href="#stopwatch"><pre>// returns Promise immediately
+stopwatch(function(done) {
+  // some code to time
+  done();
+}, 'myCustomMetricMs');</pre></a></td>
+	</tr>
+</table>
