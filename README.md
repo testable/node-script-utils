@@ -199,21 +199,24 @@ Note that all the Webdriver.io commands can be used in a synchronous fashion.
 		<td><a href="#execution-info"><pre>info</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result = browser.testableCsvGet(csvFile, index);</pre></td>
+		<td><pre>var result = 
+  browser.testableCsvGet(csvFile, index);</pre></td>
 		<td><a href="#get-row-by-index"><pre>dataTable
   .open(csvFile)
   .get(index)
   .then(function(result) { ... }</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result = browser.testableCsvRandom(csvFile);</pre></td>
+		<td><pre>var result = 
+  browser.testableCsvRandom(csvFile);</pre></td>
 		<td><a href="#get-random-row"><pre>dataTable
   .open(csvFile)
   .random()
   .then(function(result) { ... }</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var results = browser.testableCsvNext(csvFile[, options]);</pre></td>
+		<td><pre>var results = 
+  browser.testableCsvNext(csvFile[, options]);</pre></td>
 		<td><a href="#get-random-row"><pre>dataTable
   .open(csvFile)
   .random([options])
