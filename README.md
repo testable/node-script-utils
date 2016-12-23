@@ -221,17 +221,17 @@ Note that all the Webdriver.io commands can be used in a synchronous fashion.
 	</tr>
 	<tr>
 		<td><pre>var result = browser.testableResult([resource], [url]);
-browser.testableCounter(name, [increment], [units]);</pre></td>
+browser.testableCounter(result, name, [increment], [units]);</pre></td>
 		<td><a href="#counter"><pre>results([resource], [url]).counter(name, [increment], [units]);</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>var result = browser.testableResult([resource], [url]);
-browser.testableTiming(name, timing, [units]);</pre></td>
+browser.testableTiming(result, name, timing, [units]);</pre></td>
 		<td><a href="#timing"><pre>results([resource], [url]).timing(name, timing, [units]);</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>var result = browser.testableResult([resource], [url]);
-browser.testableHistogram(name, bucket, [increment]);</pre></td>
+browser.testableHistogram(result, name, bucket, [increment]);</pre></td>
 		<td><a href="#histogram"><pre>results([resource], [url]).histogram(name, bucket, [increment]);</pre></a></td>
 	</tr>
 	<tr>
