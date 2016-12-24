@@ -250,7 +250,8 @@ browser.testableTiming(
 browser.testableHistogram(
   result, 
   name, 
-  bucket, [increment]);</pre></td>
+  bucket, 
+  [increment]);</pre></td>
 		<td><a href="#histogram"><pre>results([resource], [url])
   .histogram(name, bucket, [increment]);</pre></a></td>
 	</tr>
