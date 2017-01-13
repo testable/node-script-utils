@@ -276,11 +276,11 @@ browser.testableHistogram(
 browser.testableStopwatch(function(done) {
   // some code to time
   done();
-}, 'myCustomMetricMs');</pre></td>
+}, metricName, [resource]);</pre></td>
 		<td><a href="#stopwatch"><pre>// returns Promise immediately
 stopwatch(function(done) {
   // some code to time
   done();
-}, 'myCustomMetricMs');</pre></a></td>
+}, metricName, [resource]);</pre></a></td>
 	</tr>
 </table>
