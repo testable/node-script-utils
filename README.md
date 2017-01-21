@@ -2,10 +2,12 @@
 
 A set of utility APIs for use while running [Testable](https://testable.io) scenarios ([Webdriver.io](http://www.webdriver.io) or Node.js script).
 
-* Custom Metrics
-* Stopwatch
-* Logging
-* Execution Info
+* [Custom Metrics](#custom-metrics)
+* [Stopwatch](#stopwatch)
+* [Logging](#logging)
+* [CSV](#csv)
+* [Execution Info](#execution-info)
+* [Webdriver.io Custom Commands](#webdriverio-commands)
 
 ## Installation
 
