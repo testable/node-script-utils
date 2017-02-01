@@ -2,7 +2,7 @@
 
 A set of utility APIs for use while running [Testable](https://testable.io) scenarios ([Webdriver.io](http://www.webdriver.io) or Node.js script).
 
-* [Custom Metrics](#custom-metrics)
+* [Custom Metrics](#capture-metrics)
 * [Stopwatch](#stopwatch)
 * [Logging](#logging)
 * [CSV](#csv)
