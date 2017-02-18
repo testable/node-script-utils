@@ -89,13 +89,14 @@ stopwatch(function(done) {
 
 ### Logging
 
-By default all Webdriver.io output to `stdout` and `stderr` is logged at the `debug` level during test execution. To log at higher log levels use this API.
+By default all Webdriver.io output to `stdout` and `stderr` is logged at the `debug` level during test execution. To log at other log levels use this API.
 
 Examples:
 
 ```javascript
 var log = require('testable-utils').log;
 
+log.trace("This will only be captured during a smoke test or when run locally");
 log.debug("Some useful debug");
 log.info("Some useful info");
 log.error("Whoops something went wrong");
