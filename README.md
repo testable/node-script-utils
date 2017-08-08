@@ -259,6 +259,10 @@ browser.testableHistogram(
   .histogram(name, bucket, [increment]);</pre></a></td>
 	</tr>
 	<tr>
+		<td><pre>browser.testableLogTrace(msg);</pre></td>
+		<td><a href="#logging"><pre>log.trace(msg);</pre></a></td>
+	</tr>
+	<tr>
 		<td><pre>browser.testableLogDebug(msg);</pre></td>
 		<td><a href="#logging"><pre>log.debug(msg);</pre></a></td>
 	</tr>
