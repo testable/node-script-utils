@@ -192,6 +192,12 @@ Simply include `var testableUtils = require('testable-utils');` in you test spec
 
 Note that all the Webdriver.io commands can be used in a synchronous fashion.
 
+### Screenshots
+
+One command that has no `testable-utils` equivalent is `browser.testableScreenshot(name)`. This command takes a screenshot and puts it in the output directory to be collected as part of the test results. It also includes a prefix to make it easier to identify: `[region]-[chunk]-[user]-[iteration]-[name].png`. Tests are broken up into chunks, and within each chunk users and iterations are numbered starting at 0. So for example `us-east-1-123-0-0-MyHomePage.png` would be chunk id 123, first user, first iteration, image name `MyHomePage`.
+
+### Command Mappings
+
 <table>
 	<tr>
 		<th>Webdriver.io</th>
