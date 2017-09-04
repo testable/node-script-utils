@@ -8,6 +8,7 @@ A set of utility APIs for use while running [Testable](https://testable.io) scen
 * [CSV](#csv)
 * [Execution Info](#execution-info)
 * [Webdriver.io Custom Commands](#webdriverio-commands)
+  * [Screenshots](#screenshots)
 
 ## Installation
 
