@@ -171,13 +171,18 @@ dataTable
 
 #### Iterate CSV
 
-Iterate over the CSV file, retrieving 1 or more rows. The iterator is global across the entire test execution. See [Testable documentation](https://testable.io/documentation/scripts/upload-data.html#datatable-module) for full set of options. `next()` return a `Promise`.
+Iterate over the CSV file, retrieving 1 or more rows. The iterator is global across the entire test execution. 
+
+The `next()` function takes an optional `options` object that supports the following properties:
+
+* `wrap`: By default the iterator will wrap back around to the first row once it reaches the last row during test execution. To prevent this and fail instead, set this option to false.
+* `rows`: The number of rows to return. Defaults to 1.
 
 ```javascript
 var dataTable = require('testable-utils').dataTable;
 dataTable
 	.open('data.csv')
-	.next()
+	.next({ wrap: true, rows: 1 })
 	.then(function(results) {
 		// Example:
 		// [ { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] } ]
