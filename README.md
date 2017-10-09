@@ -30,8 +30,10 @@ Capture custom metrics during your test. Testable supports 3 types of metrics. S
 
 #### Counter
 
-`results([resource], [url]).counter(name, [increment], [units])`
-`results([resource], [url]).counter(options)`
+```javscript
+results([resource], [url]).counter(name, [increment], [units])
+results([resource], [url]).counter(options)
+```
 
 Keep track of a counter across test execution. Namespace defaults `User`. Increment defaults to 1. Resource and url default to blank and are included with the "overall results".
 
@@ -46,8 +48,10 @@ results().counter({ namespace: 'User', name: 'fastRequests', val: 2, units: 'req
 
 #### Timing
 
-`results([resource], [url]).timing(name, timing, [units])`
-`results([resource], [url]).timing(options)`
+```javscript
+results([resource], [url]).timing(name, timing, [units])
+results([resource], [url]).timing(options)
+```
 
 Capture a timing. Namespace defaults to `User`. Units defaults to `ms`. Resource and url default to blank and are included with the "overall results". Testable will calculate various aggergations like min, max, average, standard deviation, and the percentiles defined in your test configuration.
 
@@ -62,8 +66,10 @@ results().timing({ namespace: 'User', name: 'latencyMs', val: 196, units: 'ms' }
 
 #### Histogram
 
-`results([resource], [url]).histogram(name, bucket, [increment])`
-`results([resource], [url]).histogram(options)`
+```javscript
+results([resource], [url]).histogram(name, bucket, [increment])
+results([resource], [url]).histogram(options)
+```
 
 Capture a histogram. Namespace defaults to `User`. Increment defaults to 1. Resource and url default to blank and are included with the "overall results".
 
