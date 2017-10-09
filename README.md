@@ -31,8 +31,9 @@ Capture custom metrics during your test. Testable supports 3 types of metrics. S
 #### Counter
 
 `results([resource], [url]).counter(name, [increment], [units])`
+`results([resource], [url]).counter(options)`
 
-Keep track of a counter across test execution. Increment defaults to 1. Resource and url default to blank and are included with the "overall results".
+Keep track of a counter across test execution. Namespace defaults `User`. Increment defaults to 1. Resource and url default to blank and are included with the "overall results".
 
 For example:
 
@@ -40,13 +41,15 @@ For example:
 var results = require('testable-utils').results;
 
 results().counter('slowRequests', 1, 'requests');
+results().counter({ namespace: 'User', name: 'fastRequests', val: 2, units: 'requests' });
 ```
 
 #### Timing
 
 `results([resource], [url]).timing(name, timing, [units])`
+`results([resource], [url]).timing(options)`
 
-Capture a timing. Units defaults to `ms`. Resource and url default to blank and are included with the "overall results". Testable will calculate various aggergations like min, max, average, standard deviation, and the percentiles defined in your test configuration.
+Capture a timing. Namespace defaults to `User`. Units defaults to `ms`. Resource and url default to blank and are included with the "overall results". Testable will calculate various aggergations like min, max, average, standard deviation, and the percentiles defined in your test configuration.
 
 For example:
 
@@ -54,13 +57,15 @@ For example:
 var results = require('testable-utils').results;
 
 results('Google Homepage', 'https://www.google.com').timing('pageLoadMs', 1294);
+results().timing({ namespace: 'User', name: 'latencyMs', val: 196, units: 'ms' });
 ```
 
 #### Histogram
 
 `results([resource], [url]).histogram(name, bucket, [increment])`
+`results([resource], [url]).histogram(options)`
 
-Capture a histogram. Increment defaults to 1. Resource and url default to blank and are included with the "overall results".
+Capture a histogram. Namespace defaults to `User`. Increment defaults to 1. Resource and url default to blank and are included with the "overall results".
 
 For example:
 
@@ -68,6 +73,7 @@ For example:
 var results = require('testable-utils').results;
 
 results().histogram('httpResponseCodes', 200);
+results().histogram({ namespace: 'User', name: 'bandwidthByType', key: 'text/html', val: 1928 });
 ```
 
 ### Stopwatch
@@ -83,7 +89,7 @@ stopwatch(function(done) {
   // some code we want to time here
   // call done() once it is done, can be async
   done();
-}, 'myCustomTimer').then(function() {
+}, { namespace: 'User', name: 'myCustomTimer' }).then(function() {
 	// called after done() is invoked
 });
 ```
