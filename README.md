@@ -5,8 +5,10 @@ A set of utility APIs for use while running [Testable](https://testable.io) scen
 * [Custom Metrics](#capture-metrics)
 * [Stopwatch](#stopwatch)
 * [Logging](#logging)
-* [CSV](#csv)
 * [Execution Info](#execution-info)
+* [CSV](#csv)
+* [Async Code](#async-code)
+* [Manual Live Event](#manual-live-event)
 * [Webdriver.io Custom Commands](#webdriverio-commands)
   * [Screenshots](#screenshots)
 
@@ -200,6 +202,50 @@ dataTable
 		// [ { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] } ]
 		console.log('Symbol: ' + results[0].data['Symbol']);
 	});
+```
+
+### Async Code
+
+**Node.js Only**
+
+When running a Node.js script on Testable and use a 3rd party module that performs async actions you might need to tell Testable when the action is finished. Testable automatically instruments many modules so you don't need to do this including async, http, https, request, net, ws, socketio, engineio, tls, setTimeout, setInterval. 
+
+For other async code use the below.
+
+```javascript
+var execute = require('testable-utils').execute;
+execute(function(finished) {
+	// my async code here, call finished() when done
+	// ...
+	finished();
+});
+```
+
+### Manual Live Event
+
+You can manually trigger an event while a test is running from the test results page (action menu => Send Live Event) or our API. Your script can listen for this event and perform an action in response. This is useful if you want to have all the virtual users perform an action at the exact same time for example. The event name/contents can be whatever you want.
+
+For local testing, you can also trigger the event in your script by checking the `isLocal` boolean variable.
+
+Example:
+
+```javascript
+const isLocal = require('testable-utils').isLocal;
+const request = require('request');
+const events = require('testable-utils').events;
+const execute = require('testable-utils').execute;
+
+execute(function(finished) {
+  events.on('my-event', function(symbol) {
+    request.get('http://sample.testable.io/stocks/' + symbol);
+    finished();
+  });
+});
+
+if (isLocal) {
+	// trigger the event when run locally for testing
+	events.emit('my-event', 'MSFT');
+}
 ```
 
 ## Webdriver.io Commands
