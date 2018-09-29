@@ -227,15 +227,16 @@ execute(function(finished) {
 
 You can manually trigger an event while a test is running from the test results page (action menu => Send Live Event) or our API. Your script can listen for this event and perform an action in response. This is useful if you want to have all the virtual users perform an action at the exact same time for example. The event name/contents can be whatever you want.
 
-For local testing, you can also trigger the event in your script by checking the `isLocal` boolean variable.
+For local testing and smoke testing on Testable, you can also trigger the event in your script by checking the `isLocal` and `isSmokeTest` boolean variables.
 
 Example:
 
 ```javascript
-const isLocal = require('testable-utils').isLocal;
 const request = require('request');
-const events = require('testable-utils').events;
-const execute = require('testable-utils').execute;
+const testableUtils = require('testable-utils');
+const fireNow = testableUtils.isLocal || testableUtils.isSmokeTest;
+const events = testableUtils.events;
+const execute = testableUtils.execute;
 
 execute(function(finished) {
   events.on('my-event', function(symbol) {
@@ -244,8 +245,8 @@ execute(function(finished) {
   });
 });
 
-if (isLocal) {
-	// trigger the event when run locally for testing
+if (fireNow) {
+	// trigger the event when smoke testing or run locally for testing
 	events.emit('my-event', 'MSFT');
 }
 ```
