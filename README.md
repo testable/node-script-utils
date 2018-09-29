@@ -223,6 +223,8 @@ execute(function(finished) {
 
 ### Manual Live Event
 
+**Node.js Only**
+
 You can manually trigger an event while a test is running from the test results page (action menu => Send Live Event) or our API. Your script can listen for this event and perform an action in response. This is useful if you want to have all the virtual users perform an action at the exact same time for example. The event name/contents can be whatever you want.
 
 For local testing, you can also trigger the event in your script by checking the `isLocal` boolean variable.
