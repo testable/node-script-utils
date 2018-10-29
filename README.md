@@ -368,7 +368,7 @@ browser.testableHistogram(
 	</tr>
 	<tr>
 		<td><pre>browser.testableWaitForEvent(eventName[, timeout]);</pre></td>
-		<td><a href="#manual-live-events"><pre>events.on(eventName);</pre></a></td>
+		<td><a href="#manual-live-event"><pre>events.on(eventName);</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>// blocks until done() is called
