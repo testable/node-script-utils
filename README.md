@@ -223,13 +223,11 @@ execute(function(finished) {
 
 ### Manual Live Event
 
-**Node.js Only**
-
 You can manually trigger an event while a test is running from the test results page (action menu => Send Live Event) or our API. Your script can listen for this event and perform an action in response. This is useful if you want to have all the virtual users perform an action at the exact same time for example. The event name/contents can be whatever you want.
 
 For local testing and smoke testing on Testable, you can also trigger the event in your script by checking the `isLocal` and `isSmokeTest` boolean variables.
 
-Example:
+Example (Node.js):
 
 ```javascript
 const request = require('request');
@@ -249,6 +247,23 @@ if (fireNow) {
 	// trigger the event when smoke testing or run locally for testing
 	events.emit('my-event', 'MSFT');
 }
+```
+
+Example (Webdriver.io):
+
+```javascript
+const testableUtils = require('testable-utils');
+const fireNow = testableUtils.isLocal || testableUtils.isSmokeTest;
+
+describe('Load Url Requested in Event', function() {
+  it('should load url', function() {
+    var url = 'http://google.com'; // default for local or smoke test
+    if (!fireNow)
+	  url = browser.testableWaitForEvent('go-time');
+	browser.url(url);
+	browser.testableScreenshot('Requested Url');
+  });
+});
 ```
 
 ## Webdriver.io Commands
@@ -350,6 +365,10 @@ browser.testableHistogram(
 	<tr>
 		<td><pre>browser.testableLogFatal(msg);</pre></td>
 		<td><a href="#logging"><pre>log.fatal(msg);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>browser.testableWaitForEvent(eventName[, timeout]);</pre></td>
+		<td><a href="#manual-live-events"><pre>events.on(eventName);</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>// blocks until done() is called
