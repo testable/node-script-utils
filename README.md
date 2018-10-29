@@ -260,8 +260,10 @@ describe('Load Url Requested in Event', function() {
     var url;
     if (fireNow)
       url = 'http://google.com'; // default for local or smoke test
-    else
+    else {
+      browser.testableLogInfo('Waiting on load-url event');
       url = browser.testableWaitForEvent('load-url');
+    }
     browser.url(url);
     browser.testableScreenshot('Requested Url');
   });
