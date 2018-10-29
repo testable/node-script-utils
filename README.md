@@ -260,8 +260,8 @@ describe('Load Url Requested in Event', function() {
     var url = 'http://google.com'; // default for local or smoke test
     if (!fireNow)
 	  url = browser.testableWaitForEvent('go-time');
-	browser.url(url);
-	browser.testableScreenshot('Requested Url');
+    browser.url(url);
+    browser.testableScreenshot('Requested Url');
   });
 });
 ```
