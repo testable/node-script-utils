@@ -257,9 +257,11 @@ const fireNow = testableUtils.isLocal || testableUtils.isSmokeTest;
 
 describe('Load Url Requested in Event', function() {
   it('should load url', function() {
-    var url = 'http://google.com'; // default for local or smoke test
-    if (!fireNow)
-	  url = browser.testableWaitForEvent('go-time');
+    var url;
+    if (fireNow)
+      url = 'http://google.com'; // default for local or smoke test
+    else
+      url = browser.testableWaitForEvent('load-url');
     browser.url(url);
     browser.testableScreenshot('Requested Url');
   });
