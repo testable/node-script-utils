@@ -9,6 +9,7 @@ A set of utility APIs for use while running [Testable](https://testable.io) scen
 * [CSV](#csv)
 * [Async Code](#async-code)
 * [Manual Live Event](#manual-live-event)
+* [Coordination Across Virtual Users](#coordination-across-virtual-users)
 * [Webdriver.io Custom Commands](#webdriverio-commands)
   * [Screenshots](#screenshots)
 
@@ -82,6 +83,51 @@ var results = require('testable-utils').results;
 
 results().histogram('httpResponseCodes', 200);
 results().histogram({ namespace: 'User', name: 'bandwidthByType', key: 'text/html', val: 1928 });
+```
+
+##### Get execution wide metric value
+
+```javascript
+results.get(name, bucket)
+results.get(options)
+```
+
+Read the current value of a metric aggregated across the entire test execution.
+
+For example to read the current value of the ```Slow Requests``` custom counter metric:
+
+```javascript
+results.get('Slow Requests').then(function(value) {
+	// use the value here
+});
+results.get({ namespace: 'User', name: 'Slow Requests' }).then(function(value) {
+	// use the value here
+});
+```
+
+##### Wait for metric value
+
+```javascript
+results.waitForValue(options)
+```
+
+Wait for the indicated metric to be greater than or equal to the specified value across the entire test execution or for the timeout to be reached. Returns a Promise object. When run locally or in a smoke test it will resolve successfully immediately.
+
+The options object can include:
+
+* `ns`: Namespace of the metric. Defaults to `Testable` for system metrics and `User` otherwise.
+* `name`: Metric name
+* `value`: The value the metric must be greater than or equal to before the Promise resolves successfully. Required.
+* `timeout`: Optional timeout (in milliseconds) after which to fail and stop waiting. Defaults to 0 (i.e. no timeout).
+* `key`: Bucket to get the metric for. Not applicable for counters but required for histogram and timing metrics
+
+For example to wait on the value of the counter `Slow Requests` to be >= 2:
+
+```javascript
+results().counter('Slow Requests', 1, 'requests');
+results.waitForValue({ namespace: 'User', name: 'Slow Requests', value: 2, timeout: 10000 }).then(function() {
+	// called when the metric reaches at least 2 aggregated across the test execution or immediately when run locally or in a smoke test
+});
 ```
 
 ### Stopwatch
@@ -257,13 +303,9 @@ const fireNow = testableUtils.isLocal || testableUtils.isSmokeTest;
 
 describe('Load Url Requested in Event', function() {
   it('should load url', function() {
-    var url;
-    if (fireNow)
-      url = 'http://google.com'; // default for local or smoke test
-    else {
-      browser.testableLogInfo('Waiting on load-url event');
-      url = browser.testableWaitForEvent('load-url');
-    }
+    browser.testableLogInfo('Waiting on load-url event');
+    // no timeout (0), use Google url for local/smoke testing
+    const url = browser.testableWaitForEvent('load-url', 0, 'https://google.com');
     browser.url(url);
     browser.testableScreenshot('Requested Url');
   });
@@ -371,8 +413,12 @@ browser.testableHistogram(
 		<td><a href="#logging"><pre>log.fatal(msg);</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>browser.testableWaitForEvent(eventName[, timeout]);</pre></td>
+		<td><pre>browser.testableWaitForEvent(eventName[, timeout[, defaultVal]]);</pre></td>
 		<td><a href="#manual-live-event"><pre>events.on(eventName);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>browser.testableWaitForValue(options);</pre></td>
+		<td><a href="#wait-for-metric-value"><pre>results.waitForValue(options);</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>// blocks until done() is called
