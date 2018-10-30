@@ -115,7 +115,7 @@ Wait for the indicated metric to be greater than or equal to the specified value
 
 The options object can include:
 
-* `ns`: Namespace of the metric. Defaults to `Testable` for system metrics and `User` otherwise.
+* `namespace`: Namespace of the metric. Defaults to `Testable` for system metrics and `User` otherwise.
 * `name`: Metric name
 * `value`: The value the metric must be greater than or equal to before the Promise resolves successfully. Required.
 * `timeout`: Optional timeout (in milliseconds) after which to fail and stop waiting. Defaults to 0 (i.e. no timeout).
