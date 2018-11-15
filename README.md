@@ -9,7 +9,7 @@ A set of utility APIs for use while running [Testable](https://testable.io) scen
 * [CSV](#csv)
 * [Async Code](#async-code)
 * [Manual Live Event](#manual-live-event)
-* [Coordination Across Virtual Users](#coordination-across-virtual-users)
+* [Wait For Finish](#wait-for-finish)
 * [Webdriver.io Custom Commands](#webdriverio-commands)
   * [Screenshots](#screenshots)
 
@@ -312,6 +312,19 @@ describe('Load Url Requested in Event', function() {
 });
 ```
 
+### Wait For Finish
+
+Use this function to wait for the remainder of the test duration before the script finishes. Returns a Promise so that you can run some cleanup code before the script exits.
+
+For tests configured for a set number of iterations the promise resolved immediately. Otherwise the promise will not resolve until the remaining duration has passed.
+
+```
+const testableUtils = require('testable-utils');
+testableUtils.waitForFinish().then(() => {
+	console.log('finished!');
+});
+```
+
 ## Webdriver.io Commands
 
 All of the API calls above are registered as <a target="_blank" href="http://webdriver.io/guide/usage/customcommands.html">custom commands</a> with Webdriver.io.
@@ -419,6 +432,10 @@ browser.testableHistogram(
 	<tr>
 		<td><pre>browser.testableWaitForValue(options);</pre></td>
 		<td><a href="#wait-for-metric-value"><pre>results.waitForValue(options);</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>browser.testableWaitForFinish();</pre></td>
+		<td><a href="#wait-for-finish"><pre>testableUtils.waitForFinish().then(() => { });</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>// blocks until done() is called
