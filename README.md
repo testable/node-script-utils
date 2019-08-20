@@ -85,6 +85,28 @@ results().histogram('httpResponseCodes', 200);
 results().histogram({ namespace: 'User', name: 'bandwidthByType', key: 'text/html', val: 1928 });
 ```
 
+#### Metered
+
+```javscript
+results([resource], [url]).metered(name, bucket, val, [units])
+results([resource], [url]).histogram(options)
+```
+
+A metered metric is intended to capture live utilization of a resource in a particular bucket. Testable uses metered metrics to capture CPU utilization, memory utilization, active connections, and bandwidth per test runner.
+
+Testable will calculate the peak value across all buckets in each 10 second time interval during the test. For example, this can be used to observe the test runner with the highest CPU utilization.
+
+Namespace defaults to `User`. Resource and url default to blank and are included with the "overall results".
+
+For example:
+
+```javscript
+const results = require('testable-utils').results;
+const info = require('testable-utils').info;
+
+results().metered('Browser Heap Memory', `User ${info.globalClientIndex} - Chrome`, 1025781, 'bytes');
+```
+
 ##### Get execution wide metric value
 
 ```javascript
