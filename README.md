@@ -2,15 +2,26 @@
 
 A set of utility APIs for use while running [Testable](https://testable.io) scenarios ([Webdriver.io](http://www.webdriver.io) or Node.js script).
 
-* [Custom Metrics](#capture-metrics)
+* [Custom metrics](#capture-metrics)
+  * [Counter](#counter)
+  * [Timing](#timing)
+  * [Histogram](#histogram)
+  * [Metered](#metered)
+* [Synchronizing across concurrent users](#synchronizing-across-concurrent-users)
+  * [Barriers](#barriers)
+  * [Get execution wide metric value](#get-execution-wide-metric-value)
+  * [Wait for metric value](#wait-for-metric-value)
 * [Stopwatch](#stopwatch)
 * [Logging](#logging)
 * [Execution Info](#execution-info)
 * [CSV](#csv)
-* [Async Code](#async-code)
-* [Manual Live Event](#manual-live-event)
-* [Wait For Finish](#wait-for-finish)
-* [Webdriver.io Custom Commands](#webdriverio-commands)
+  * [Get row by index](#get-row-by-index)
+  * [Get random row](#get-random-row)
+  * [Iterate CSV](#iterate-csv)
+* [Async code](#async-code)
+* [Manual live event](#manual-live-event)
+* [Wait for finish](#wait-for-finish)
+* [Webdriver.io custom commands](#webdriverio-commands)
   * [Screenshots](#screenshots)
 
 ## Installation
@@ -107,10 +118,32 @@ const info = require('testable-utils').info;
 results().metered('Browser Heap Memory', `User ${info.globalClientIndex} - Chrome`, 1025781, 'bytes');
 ```
 
-##### Get execution wide metric value
+### Synchronizing Across Concurrent Users
+
+Testable provides several APIs to assist in coordinating across the concurrent users that are part of your test.
+
+#### Barriers
+
+Returns a promise that will not resolve until all concurrent users globally reach this barrier.
+
+```javscript
+results.barrier(name, [value]);
+```
+
+For example:
 
 ```javascript
-results.get(name, bucket)
+results.barrier('Login').then(function() {
+	// continue executing after all users reach the "Login" barrier.
+})
+```
+
+Optionally accepts a ```value``` as the second parameter if you do not expect all concurrent users globally to reach this barrier.
+
+#### Get execution wide metric value
+
+```javascript
+results.get(name, [bucket])
 results.get(options)
 ```
 
@@ -127,13 +160,16 @@ results.get({ namespace: 'User', name: 'Slow Requests' }).then(function(value) {
 });
 ```
 
-##### Wait for metric value
+#### Wait for metric value
 
 ```javascript
 results.waitForValue(options)
+results.incrementAndWaitForValue(options)
 ```
 
 Wait for the indicated metric to be greater than or equal to the specified value across the entire test execution or for the timeout to be reached. Returns a Promise object. When run locally or in a smoke test it will resolve successfully immediately.
+
+If you use the ```incrementAndWaitForValue``` variation it will first increment a counter by 1 with the given name and then wait for the global value to reach the specified threshold.
 
 The options object can include:
 
@@ -452,12 +488,20 @@ browser.testableHistogram(
 		<td><a href="#manual-live-event"><pre>events.on(eventName);</pre></a></td>
 	</tr>
 	<tr>
+		<td><pre>browser.testableGetMetric(options);</pre></td>
+		<td><a href="#get-execution-wide-metric-value"><pre>results.get(options);</pre></a></td>
+	</tr>
+	<tr>
 		<td><pre>browser.testableWaitForValue(options);</pre></td>
 		<td><a href="#wait-for-metric-value"><pre>results.waitForValue(options);</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>browser.testableWaitForFinish();</pre></td>
 		<td><a href="#wait-for-finish"><pre>testableUtils.waitForFinish().then(() => { });</pre></a></td>
+	</tr>
+	<tr>
+		<td><pre>browser.testableBarrier(name, [value]);</pre></td>
+		<td><a href="#barriers"><pre>results.barrier(name, [value]);</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>// blocks until done() is called
