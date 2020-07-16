@@ -21,5 +21,6 @@
     "babyparse": "^0.4.6",
     "lodash": "^4.17.15",
     "request": "^2.79.0"
-  }
+  },
+  "typings": "./index.d.ts"
 }
