@@ -1,55 +1,130 @@
-declare module testableUtils {
-    namespace log {
-        function fatal(message: any);
-        function info(message: any);
-        function error(message: any);
-        function debug(message: any);
-        function trace(message: any);
-    }
+import {EventEmitter} from "events";
 
-    interface events {
-        addListener(event: string | symbol, listener: (...args: any[]) => void): this;
-        on(event: string | symbol, listener: (...args: any[]) => void): this;
-        once(event: string | symbol, listener: (...args: any[]) => void): this;
-        removeListener(event: string | symbol, listener: (...args: any[]) => void): this;
-        off(event: string | symbol, listener: (...args: any[]) => void): this;
-        removeAllListeners(event?: string | symbol): this;
-        setMaxListeners(n: number): this;
-        getMaxListeners(): number;
-        listeners(event: string | symbol): Function[];
-        rawListeners(event: string | symbol): Function[];
-        emit(event: string | symbol, ...args: any[]): boolean;
-        listenerCount(type: string | symbol): number;
-        // Added in Node 6...
-        prependListener(event: string | symbol, listener: (...args: any[]) => void): this;
-        prependOnceListener(event: string | symbol, listener: (...args: any[]) => void): this;
-        eventNames(): Array<string | symbol>;
-    }
+declare module testableUtils {
+    var isLocal: boolean;
+    var isSmokeTest: boolean;
+    var events: EventEmitter;
 
     function execute(func: Function)
 
-    namespace dataTable {
-        function open()
-        namespace open{
-            function get(i: number);
-            function random();
-            function next(options?: object);
-        }
-    }
-
-    function results()
-
-    namespace results {
-        function toResourceName(url: string)
-    }
-
     function stopwatch(func: Function, param1?: string, param2?: string)
 
-    function waitForFinish()
+    function waitForFinish(): Promise<void>
 
-    var isLocal: boolean;
-    var isSmokeTest: boolean;
-    var info: any;
+
+    interface Log {
+        fatal(message: any);
+        info(message: any);
+        error(message: any);
+        debug(message: any);
+        trace(message: any);
+    }
+    var log: Log;
+
+
+    interface DataRow {
+        index: number;
+        data: object;
+        indexed: Array<any>;
+    }
+    interface DataTable{
+        get(i: number): Promise<DataRow>
+        random(): Promise<DataRow>
+        next(options?: object): Promise<Array<DataRow>>
+    }
+    var dataTable: {
+        open(name: string): DataTable
+    };
+
+
+    interface Chunk{
+        id: number,
+        executionType: string,
+        agent: string,
+        createdAt: Date,
+        updatedAt: Date,
+        startedAt: Date,
+        concurrentClients: number
+    }
+    interface Execution{
+        id: number,
+        createdAt: Date,
+        updatedAt: Date,
+        startedAt: Date,
+        concurrentClients: number
+    }
+    interface Region {
+        id: number,
+        createdAt: Date,
+        updatedAt: Date,
+        name: string,
+        public: boolean,
+        latitude: number,
+        longitude: number,
+        description: string,
+        active: boolean
+    }
+    var info: {
+        expectedFinishTimestamp: number,
+        iteration: number,
+        client: number,
+        globalClientIndex: number,
+        regionalClientIndex: number,
+        chunk: Chunk,
+        agent: string,
+        execution: Execution,
+        region: Region,
+        outputDir: string
+    }
+
+
+    interface ValueCondition {
+        value: number;
+        name: string;
+        key?: string;
+    }
+    interface Condition {
+        condition: (val: number) => boolean;
+        name: string;
+        key?: string;
+    }
+    interface Result {
+        timing(options: ResultOptions): Promise<void>;
+        timing(name: string, key?: string, val?: number, units?: string): Promise<void>;
+        counter(options: ResultOptions): Promise<void>;
+        counter(name: string, key?: string, val?: number, units?: string): Promise<void>;
+        histogram(options: ResultOptions): Promise<void>;
+        histogram(name: string, key?: string, val?: number, units?: string): Promise<void>;
+        metered(options: ResultOptions): Promise<void>;
+        metered(name: string, key?: string, val?: number, units?: string): Promise<void>;
+
+        data
+
+        setTraceStatus(status: string): void;
+        markAsSuccess(): void;
+        markAsFailure(): void;
+    }
+    interface ResultOptions {
+        name: string;
+        key?: string;
+        val?: number;
+        units?: string;
+    }
+    interface GetOptions {
+        name: string;
+        key?: string;
+    }
+    var results: {
+        (resource?: string, url?: string): Result;
+        get(options: GetOptions): Promise<number>;
+        get(name: string, key?: string): Promise<number>;
+        waitForCondition(options: Condition): Promise<void>;
+        waitForValue(options: ValueCondition): Promise<void>;
+        incrementAndWaitForValue(name: string, value: number): Promise<void>;
+        barrier(name: string, value: number): Promise<void>;
+        toResourceName: (url: string) => string;
+        current: Result;
+    }
 
 }
 
