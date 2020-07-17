@@ -7,7 +7,7 @@ declare module testableUtils {
 
     function execute(func: Function)
 
-    function stopwatch(func: Function, param1?: string, param2?: string)
+    function stopwatch(code: Function, metricName?: string, resource?: string)
 
     function waitForFinish(): Promise<void>
 
@@ -97,12 +97,11 @@ declare module testableUtils {
         histogram(name: string, key?: string, val?: number, units?: string): Promise<void>;
         metered(options: ResultOptions): Promise<void>;
         metered(name: string, key?: string, val?: number, units?: string): Promise<void>;
-
-        data
-
         setTraceStatus(status: string): void;
         markAsSuccess(): void;
         markAsFailure(): void;
+
+        data:{resource: string, url: string},
     }
     interface ResultOptions {
         name: string;
