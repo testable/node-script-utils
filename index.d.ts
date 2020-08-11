@@ -1,6 +1,6 @@
 import {EventEmitter} from "events";
 
-declare module testableUtils {
+declare namespace testableUtils {
     var isLocal: boolean;
     var isSmokeTest: boolean;
     var events: EventEmitter;
@@ -127,16 +127,11 @@ declare module testableUtils {
 
 }
 
-export = testableUtils;
-
+declare module "testable-utils" {
+    export = testableUtils
+}
 
 declare namespace WebdriverIO {
-//   interface Config {
-//   }
-
-//   interface Element {
-//   }
-
     interface Browser {
         testableLogTrace: () => any;
         testableLogDebug: () => any;
@@ -166,4 +161,6 @@ declare namespace WebdriverIO {
     }
 }
 
-export as namespace WebdriverIO;
+declare module "@wdio/sync" {
+    export = WebdriverIO
+}
