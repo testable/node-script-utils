@@ -1,6 +1,6 @@
 {
   "name": "testable-utils",
-  "version": "0.4.2",
+  "version": "0.5.2",
   "description": "Utilities for Testable scripts",
   "author": "Avi Stramer",
   "keywords": [
@@ -14,7 +14,8 @@
   },
   "main": "lib/main.js",
   "files": [
-    "lib/"
+    "lib/",
+    "index.d.ts"
   ],
   "dependencies": {
     "always-tail": "^0.2.0",
