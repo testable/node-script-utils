@@ -104,12 +104,14 @@ declare namespace testableUtils {
         data:{resource: string, url: string},
     }
     interface ResultOptions {
+	namespace?: string;
         name: string;
         key?: string;
         val?: number;
         units?: string;
     }
     interface GetOptions {
+	namespace?: string;
         name: string;
         key?: string;
     }
