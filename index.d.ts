@@ -13,11 +13,11 @@ declare namespace testableUtils {
 
 
     interface Log {
-        fatal(message: any);
-        info(message: any);
-        error(message: any);
-        debug(message: any);
-        trace(message: any);
+        debug(message?: any);
+        error(message?: any);
+        fatal(message?: any);
+        info(message?: any);
+        trace(message?: any);
     }
     var log: Log;
 
@@ -79,8 +79,8 @@ declare namespace testableUtils {
 
 
     interface ValueCondition {
-        value: number;
         name: string;
+        value?: number;
         key?: string;
     }
     interface Condition {
@@ -119,8 +119,8 @@ declare namespace testableUtils {
         get(name: string, key?: string): Promise<number>;
         waitForCondition(options: Condition): Promise<void>;
         waitForValue(options: ValueCondition): Promise<void>;
-        incrementAndWaitForValue(name: string, value: number): Promise<void>;
-        barrier(name: string, value: number): Promise<void>;
+        incrementAndWaitForValue(name: string, value?: number): Promise<void>;
+        barrier(name: string, value?: number): Promise<void>;
         toResourceName: (url: string) => string;
         current: Result;
     }
@@ -133,31 +133,31 @@ declare module "testable-utils" {
 
 declare namespace WebdriverIO {
     interface Browser {
-        testableLogTrace: () => any;
-        testableLogDebug: () => any;
-        testableLogInfo: () => any;
-        testableLogError: () => any;
-        testableLogFatal: () => any;
-        testableCsvGet: (name: string, index: number) => any;
-        testableCsvRandom: (name: string) => any;
-        testableCsvNext: (name: string, options: any) => any;
-        testableResult: (resource: string, url: string) => any;
-        testableTiming: (result: any) => any;
-        testableCounter: (result: any) => any;
-        testableHistogram: (result: any) => any;
-        testableMetered: (result: any) => any;
+        testableLogDebug: (message?: any) => any;
+        testableLogError: (message?: any) => any;
+        testableLogFatal: (message?: any) => any;
+        testableLogInfo: (message?: any) => any;
+        testableLogTrace: (message?: any) => any;
+        testableCsvGet: (name: string, index: number) => Promise<testableUtils.DataRow>
+        testableCsvRandom: (name: string) => Promise<testableUtils.DataRow>;
+        testableCsvNext: (name: string, options?: any) => Promise<Array<testableUtils.DataRow>>
+        testableResult: (resource?: string, url?: string) => any;
+        testableTiming: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
+        testableCounter: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
+        testableHistogram: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
+        testableMetered: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
         testableGetMetric: () => any;
-        testableWaitForValue: (options: any) => any;
-        testableWaitForCondition: (options: any) => any;
-        testableIncrementAndWaitForValue: (options: any) => any;
-        testableBarrier: (name: string, value: any) => any;
+        testableWaitForCondition: (options: testableUtils.Condition) => Promise<void>;
+        testableWaitForValue: (options: testableUtils.ValueCondition) => Promise<void>;
+        testableIncrementAndWaitForValue: (name: string, value?: number) => Promise<void>;
+        testableBarrier: (name: string, value?: any) => any;
         testableInfo: () => any;
 
         testableScreenshot: (name: string) => any;
-        testableStopwatch: (code: string, metricName: string, resource: string) => any;
-        testableWaitForEvent: (eventName: string, timeout: number, defaultVal: any) => any;
+        testableStopwatch: (code: Function, metricName?: string, resource?: string) => any;
+        testableWaitForEvent: (eventName: string, timeout?: number, defaultVal?: any) => any;
 
-        testableWaitForFinish: () => any;
+        testableWaitForFinish: () => Promise<void>;
     }
 }
 
