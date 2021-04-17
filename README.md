@@ -100,7 +100,7 @@ results().histogram({ namespace: 'User', name: 'bandwidthByType', key: 'text/htm
 
 ```javscript
 results([resource], [url]).metered(name, bucket, val, [units])
-results([resource], [url]).histogram(options)
+results([resource], [url]).metered(options)
 ```
 
 A metered metric is intended to capture live utilization of a resource in a particular bucket. Testable uses metered metrics to capture CPU utilization, memory utilization, active connections, and bandwidth per test runner.
@@ -120,7 +120,7 @@ results().metered('Browser Heap Memory', `User ${info.globalClientIndex} - Chrom
 
 ### Synchronizing Across Concurrent Users
 
-Testable provides several APIs to assist in coordinating across the concurrent users that are part of your test.
+Testable provides several APIs to assist in coordinating across the concurrent users that are part of your test. These APIs are only available for browser-based tests and not protocol level Node.js scripts.
 
 #### Barriers
 
