@@ -164,3 +164,7 @@ declare global {
         }
     }
 }
+
+declare module "webdriverio/sync" {
+    export = WebdriverIO
+}
