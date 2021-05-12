@@ -133,36 +133,34 @@ declare module "testable-utils" {
     export = testableUtils
 }
 
-declare namespace WebdriverIO {
-    interface Browser {
-        testableLogDebug: (message?: any) => any;
-        testableLogError: (message?: any) => any;
-        testableLogFatal: (message?: any) => any;
-        testableLogInfo: (message?: any) => any;
-        testableLogTrace: (message?: any) => any;
-        testableCsvGet: (name: string, index: number) => Promise<testableUtils.DataRow>
-        testableCsvRandom: (name: string) => Promise<testableUtils.DataRow>;
-        testableCsvNext: (name: string, options?: any) => Promise<Array<testableUtils.DataRow>>
-        testableResult: (resource?: string, url?: string) => any;
-        testableTiming: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
-        testableCounter: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
-        testableHistogram: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
-        testableMetered: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
-        testableGetMetric: () => any;
-        testableWaitForCondition: (options: testableUtils.Condition) => Promise<void>;
-        testableWaitForValue: (options: testableUtils.ValueCondition) => Promise<void>;
-        testableIncrementAndWaitForValue: (name: string, value?: number) => Promise<void>;
-        testableBarrier: (name: string, value?: any) => any;
-        testableInfo: () => any;
+declare global {
+    namespace WebdriverIO {
+        interface Browser {
+            testableLogDebug: (message?: any) => any;
+            testableLogError: (message?: any) => any;
+            testableLogFatal: (message?: any) => any;
+            testableLogInfo: (message?: any) => any;
+            testableLogTrace: (message?: any) => any;
+            testableCsvGet: (name: string, index: number) => Promise<testableUtils.DataRow>
+            testableCsvRandom: (name: string) => Promise<testableUtils.DataRow>;
+            testableCsvNext: (name: string, options?: any) => Promise<Array<testableUtils.DataRow>>
+            testableResult: (resource?: string, url?: string) => any;
+            testableTiming: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
+            testableCounter: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
+            testableHistogram: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
+            testableMetered: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
+            testableGetMetric: () => any;
+            testableWaitForCondition: (options: testableUtils.Condition) => Promise<void>;
+            testableWaitForValue: (options: testableUtils.ValueCondition) => Promise<void>;
+            testableIncrementAndWaitForValue: (name: string, value?: number) => Promise<void>;
+            testableBarrier: (name: string, value?: any) => any;
+            testableInfo: () => any;
 
-        testableScreenshot: (name: string) => any;
-        testableStopwatch: (code: Function, metricName?: string, resource?: string) => any;
-        testableWaitForEvent: (eventName: string, timeout?: number, defaultVal?: any) => any;
+            testableScreenshot: (name: string) => any;
+            testableStopwatch: (code: Function, metricName?: string, resource?: string) => any;
+            testableWaitForEvent: (eventName: string, timeout?: number, defaultVal?: any) => any;
 
-        testableWaitForFinish: () => Promise<void>;
+            testableWaitForFinish: () => Promise<void>;
+        }
     }
-}
-
-declare module "@wdio/sync" {
-    export = WebdriverIO
 }
