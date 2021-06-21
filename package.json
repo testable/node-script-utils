@@ -22,7 +22,8 @@
     "babyparse": "^0.4.6",
     "lodash": "^4.17.15",
     "request": "^2.88.2",
-    "uuid": "^3.4.0"
+    "uuid": "^3.4.0",
+    "verror": "^1.10.0"
   },
   "typings": "./index.d.ts"
 }
