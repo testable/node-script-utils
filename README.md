@@ -20,7 +20,7 @@ A set of utility APIs for use while running [Testable](https://testable.io) scen
   * [Iterate CSV](#iterate-csv)
 * [Async code](#async-code)
 * [Manual live event](#manual-live-event)
-* [Suite and Tests](#suite-and-tests)
+* [Test Framework Syntax](#test-framework-syntax)
 * [Wait for finish](#wait-for-finish)
 * [Webdriver.io custom commands](#webdriverio-commands)
   * [Screenshots](#screenshots)
@@ -372,87 +372,34 @@ describe('Load Url Requested in Event', function() {
 });
 ```
 
-### Suite and Tests
-You can run your tests in with same Webdriver.io API and can have multiple test suites.
+### Test Framework Syntax
 
-Example (Selenium Webdriver):
+Structure your tests using the familiar Mocha.js test case syntax. When run on the Testable platform you will be able to see a test case report of all test steps including pass/fail status, duration, and error details on failure.
+
+
+For Example:
 
 ```javascript
-const webdriver = require('selenium-webdriver');
-const util = require('util');
-const fs = require('fs');
-const writeFile = util.promisify(fs.writeFile);
-const path = require('path');
-
 const testableUtils = require('testable-utils');
 const describe = testableUtils.describe;
 const it = testableUtils.it;
-
-async function takeScreenshot(driver, file){
-    let image = await driver.takeScreenshot();
-    await writeFile(file, image, 'base64');
-}
-
-(async function example() {
-  global.driver = await new webdriver.Builder()
-    .withCapabilities(webdriver.Capabilities.chrome())
-    .build();
-
-  try {
-    await describe('Google Related', async function() {
-      await it('Open google home page', async function() {
-        await driver.get('http://www.google.com');
-        await takeScreenshot(driver, path.join(process.env.OUTPUT_DIR || '.', 'HomePage.png'));
-        await driver.wait(webdriver.until.titleIs('Google'), 10000);
-      });
-
-      await it('Open google home page', async function() {
-        await driver.get("https://news.google.com");
-        await takeScreenshot(driver, path.join(process.env.OUTPUT_DIR || '.', 'News.png'));
-        await driver.wait(webdriver.until.titleIs('Google News'), 10000);
-      });
+// await if there is any async code in your tests
+await describe('My example test suite', function() {
+    it('First test step', async function() {
+        await driver.get('http://www.google.com'); // Selenium javascript example code
     });
-  } finally {
-    await driver.quit();
-  }
-})();
+});
 ```
 
-Example (Playwright):
+Full API:
 
 ```javascript
-const { chromium } = require('playwright');
-const testableUtils = require('testable-utils');
-const describe = testableUtils.describe;
-const it = testableUtils.it;
-
-(async () => {
-  const browser = await chromium.launch({ headless: false });
-  const page = await browser.newPage();
-
-  await describe('Google Related', async function() {
-    await it('Open google home page', async function() {
-      // Instructs the blank page to navigate a URL
-      await page.goto('https://www.google.com');
-      await page.screenshot({path: 'homepage.png'});
-
-      // Fetches page's title
-      const title = await page.title();
-      console.info(`The title is: ${title}`);
-    });
-
-    await it('Open google news page', async function() {
-      await page.goto('https://news.google.com');
-      await page.screenshot({path: 'newspage.png'});
-
-      // Fetches page's title
-      const title = await page.title();
-      console.info(`The News title is: ${title}`);
-    });
-  });
-
-  await browser.close();
-})();
+describe(suite, fn); // fn should be a function that contains a sequence of it() blocks
+it(test, fn); // fn executes a single test step
+beforeEach(fn); // runs before each test step (it block)
+afterEach(fn); // runs after each test step (it block)
+before(fn); // runs before each suite (describe block)
+after(fn); // runs after each suite (describe block)
 ```
 
 ### Wait For Finish
