@@ -289,7 +289,7 @@ dataTable
 
 #### Iterate CSV
 
-Iterate over the CSV file, retrieving 1 or more rows. The iterator is global across the entire test execution. 
+Iterate over the CSV file, retrieving 1 or more rows. The iterator is global across the entire test execution.
 
 The `next()` function takes an optional `options` object that supports the following properties:
 
@@ -311,7 +311,7 @@ dataTable
 
 **Node.js Only**
 
-When running a Node.js script on Testable and use a 3rd party module that performs async actions you might need to tell Testable when the action is finished. Testable automatically instruments many modules so you don't need to do this including async, http, https, request, net, ws, socketio, engineio, tls, setTimeout, setInterval. 
+When running a Node.js script on Testable and use a 3rd party module that performs async actions you might need to tell Testable when the action is finished. Testable automatically instruments many modules so you don't need to do this including async, http, https, request, net, ws, socketio, engineio, tls, setTimeout, setInterval.
 
 For other async code use the below.
 
@@ -347,8 +347,9 @@ execute(function(finished) {
 });
 
 if (fireNow) {
-	// trigger the event when smoke testing or run locally for testing
-	events.emit('my-event', 'MSFT');
+    // trigger the event when smoke testing or run locally for testing
+    events.emit('my-event', 'MSFT');
+    events.finish()
 }
 ```
 
@@ -406,7 +407,7 @@ One command that has no `testable-utils` equivalent is `browser.testableScreensh
 		<td><a href="#execution-info"><pre>info</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result = 
+		<td><pre>var result =
   browser.testableCsvGet(csvFile, index);</pre></td>
 		<td><a href="#get-row-by-index"><pre>dataTable
   .open(csvFile)
@@ -414,7 +415,7 @@ One command that has no `testable-utils` equivalent is `browser.testableScreensh
   .then(function(result) { ... }</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result = 
+		<td><pre>var result =
   browser.testableCsvRandom(csvFile);</pre></td>
 		<td><a href="#get-random-row"><pre>dataTable
   .open(csvFile)
@@ -422,7 +423,7 @@ One command that has no `testable-utils` equivalent is `browser.testableScreensh
   .then(function(result) { ... }</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var results = 
+		<td><pre>var results =
   browser.testableCsvNext(csvFile[, options]);</pre></td>
 		<td><a href="#get-random-row"><pre>dataTable
   .open(csvFile)
@@ -430,34 +431,34 @@ One command that has no `testable-utils` equivalent is `browser.testableScreensh
   .then(function(results) { ... }</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result = 
+		<td><pre>var result =
   browser.testableResult([resource], [url]);
 browser.testableCounter(
-  result, 
-  name, 
-  [increment], 
+  result,
+  name,
+  [increment],
   [units]);</pre></td>
 		<td><a href="#counter"><pre>results([resource], [url])
   .counter(name, [increment], [units]);</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result = 
+		<td><pre>var result =
   browser.testableResult([resource], [url]);
 browser.testableTiming(
-  result, 
-  name, 
-  timing, 
+  result,
+  name,
+  timing,
   [units]);</pre></td>
 		<td><a href="#timing"><pre>results([resource], [url])
   .timing(name, timing, [units]);</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result = 
+		<td><pre>var result =
   browser.testableResult([resource], [url]);
 browser.testableHistogram(
-  result, 
-  name, 
-  bucket, 
+  result,
+  name,
+  bucket,
   [increment]);</pre></td>
 		<td><a href="#histogram"><pre>results([resource], [url])
   .histogram(name, bucket, [increment]);</pre></a></td>
