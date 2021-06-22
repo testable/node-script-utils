@@ -20,6 +20,7 @@ A set of utility APIs for use while running [Testable](https://testable.io) scen
   * [Iterate CSV](#iterate-csv)
 * [Async code](#async-code)
 * [Manual live event](#manual-live-event)
+* [Suite and Tests](#suite-and-tests)
 * [Wait for finish](#wait-for-finish)
 * [Webdriver.io custom commands](#webdriverio-commands)
   * [Screenshots](#screenshots)
@@ -342,6 +343,7 @@ const execute = testableUtils.execute;
 execute(function(finished) {
   events.on('my-event', function(symbol) {
     request.get('http://sample.testable.io/stocks/' + symbol);
+    events.finish()
     finished();
   });
 });
@@ -368,6 +370,89 @@ describe('Load Url Requested in Event', function() {
     browser.testableScreenshot('Requested Url');
   });
 });
+```
+
+### Suite and Tests
+You can run your tests in with same Webdriver.io API and can have multiple test suites.
+
+Example (Selenium Webdriver):
+
+```javascript
+const webdriver = require('selenium-webdriver');
+const util = require('util');
+const fs = require('fs');
+const writeFile = util.promisify(fs.writeFile);
+const path = require('path');
+
+const testableUtils = require('testable-utils');
+const describe = testableUtils.describe;
+const it = testableUtils.it;
+
+async function takeScreenshot(driver, file){
+    let image = await driver.takeScreenshot();
+    await writeFile(file, image, 'base64');
+}
+
+(async function example() {
+  global.driver = await new webdriver.Builder()
+    .withCapabilities(webdriver.Capabilities.chrome())
+    .build();
+
+  try {
+    await describe('Google Related', async function() {
+      await it('Open google home page', async function() {
+        await driver.get('http://www.google.com');
+        await takeScreenshot(driver, path.join(process.env.OUTPUT_DIR || '.', 'HomePage.png'));
+        await driver.wait(webdriver.until.titleIs('Google'), 10000);
+      });
+
+      await it('Open google home page', async function() {
+        await driver.get("https://news.google.com");
+        await takeScreenshot(driver, path.join(process.env.OUTPUT_DIR || '.', 'News.png'));
+        await driver.wait(webdriver.until.titleIs('Google News'), 10000);
+      });
+    });
+  } finally {
+    await driver.quit();
+  }
+})();
+```
+
+Example (Playwright):
+
+```javascript
+const { chromium } = require('playwright');
+const testableUtils = require('testable-utils');
+const describe = testableUtils.describe;
+const it = testableUtils.it;
+
+(async () => {
+  const browser = await chromium.launch({ headless: false });
+  const page = await browser.newPage();
+
+  await describe('Google Related', async function() {
+    await it('Open google home page', async function() {
+      // Instructs the blank page to navigate a URL
+      await page.goto('https://www.google.com');
+      await page.screenshot({path: 'homepage.png'});
+
+      // Fetches page's title
+      const title = await page.title();
+      console.info(`The title is: ${title}`);
+    });
+
+    await it('Open google news page', async function() {
+      await page.goto('https://news.google.com');
+      await page.screenshot({path: 'newspage.png'});
+
+      // Fetches page's title
+      const title = await page.title();
+      console.info(`The News title is: ${title}`);
+    });
+  });
+
+  await browser.close();
+})();
 ```
 
 ### Wait For Finish
