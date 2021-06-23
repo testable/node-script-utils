@@ -12,6 +12,14 @@ declare namespace testableUtils {
     function waitForFinish(): Promise<void>
 
 
+    function describe(suiteName: string, fn: Function) : Promise<void>;
+    function it(testName: string, fn: Function) : Promise<void>;
+    function before(fn: Function) : void;
+    function after(fn: Function) : void;
+    function beforeEach(fn: Function) : void;
+    function afterEach(fn: Function) : void;
+
+
     interface Log {
         debug(message?: any);
         error(message?: any);
