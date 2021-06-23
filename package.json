@@ -1,6 +1,6 @@
 {
   "name": "testable-utils",
-  "version": "0.5.9",
+  "version": "0.5.10",
   "description": "Utilities for Testable scripts",
   "author": "Avi Stramer",
   "keywords": [
@@ -20,8 +20,9 @@
   "dependencies": {
     "always-tail": "^0.2.0",
     "babyparse": "^0.4.6",
-    "lodash": "^4.17.15",
-    "request": "^2.88.2"
+    "lodash": "^4.17.21",
+    "request": "^2.88.2",
+    "uuid": "^3.4.0"
   },
   "typings": "./index.d.ts"
 }

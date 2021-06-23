@@ -11,6 +11,18 @@ declare namespace testableUtils {
 
     function waitForFinish(): Promise<void>
 
+    function describe(suiteName: string, fn: Function): Promise<void>;
+
+    function it(testName: string, fn: Function): Promise<void>;
+
+    function before(fn: Function): void;
+
+    function after(fn: Function): void;
+
+    function beforeEach(fn: Function): void;
+
+    function afterEach(fn: Function): void;
+
 
     interface Log {
         debug(message?: any);
@@ -37,7 +49,7 @@ declare namespace testableUtils {
     };
 
 
-    interface Chunk{
+    interface Chunk {
         id: number,
         executionType: string,
         agent: string,
@@ -46,7 +58,7 @@ declare namespace testableUtils {
         startedAt: Date,
         concurrentClients: number
     }
-    interface Execution{
+    interface Execution {
         id: number,
         createdAt: Date,
         updatedAt: Date,
@@ -101,17 +113,17 @@ declare namespace testableUtils {
         markAsSuccess(): void;
         markAsFailure(): void;
 
-        data:{resource: string, url: string},
+        data: { resource: string, url: string },
     }
     interface ResultOptions {
-	namespace?: string;
+        namespace?: string;
         name: string;
         key?: string;
         val?: number;
         units?: string;
     }
     interface GetOptions {
-	namespace?: string;
+        namespace?: string;
         name: string;
         key?: string;
     }
