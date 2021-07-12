@@ -37,6 +37,16 @@ npm install testable-utils --save
 
 When you run your script locally, any calls to Testable APIs will print to the console. During actual test execution via [Testable](https://testable.io) test runners the API calls integrate as expected.
 
+If you are using Webdriver.io with our custom commands you will need to add the following in your `wdio.conf.js` file to ensure they get registered:
+
+```
+...
+before: function (capabilities, specs, browser) {
+	require('testable-utils').init();
+},
+...
+```
+
 ## APIs
 
 ### Capture Metrics

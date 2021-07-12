@@ -5,6 +5,8 @@ declare namespace testableUtils {
     var isSmokeTest: boolean;
     var events: EventEmitter;
 
+    function init(): void;
+
     function execute(func: Function)
 
     function stopwatch(code: Function, metricName?: string, resource?: string)
