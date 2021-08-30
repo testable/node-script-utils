@@ -143,9 +143,7 @@ declare namespace testableUtils {
 
 }
 
-declare module "testable-utils" {
-    export = testableUtils
-}
+export = testableUtils
 
 declare global {
     namespace WebdriverIO {
