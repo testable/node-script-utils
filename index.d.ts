@@ -170,7 +170,7 @@ declare global {
             testableBarrier: (name: string, value?: any) => any;
             testableInfo: () => any;
 
-            testableScreenshot: (name: string) => any;
+            testableScreenshot: (name: string) => Promise<any>;
             testableStopwatch: (code: Function, metricName?: string, resource?: string) => any;
             testableWaitForEvent: (eventName: string, timeout?: number, defaultVal?: any) => any;
 

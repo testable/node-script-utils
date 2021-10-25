@@ -372,12 +372,12 @@ const testableUtils = require('testable-utils');
 const fireNow = testableUtils.isLocal || testableUtils.isSmokeTest;
 
 describe('Load Url Requested in Event', function() {
-  it('should load url', function() {
+  it('should load url', async () => {
     browser.testableLogInfo('Waiting on load-url event');
     // no timeout (0), use Google url for local/smoke testing
     const url = browser.testableWaitForEvent('load-url', 0, 'https://google.com');
-    browser.url(url);
-    browser.testableScreenshot('Requested Url');
+    await browser.url(url);
+    await browser.testableScreenshot('Requested Url');
   });
 });
 ```
@@ -435,7 +435,7 @@ Note that all the Webdriver.io commands can be used in a synchronous fashion.
 
 ### Screenshots
 
-One command that has no `testable-utils` equivalent is `browser.testableScreenshot(name)`. This command takes a screenshot and puts it in the output directory to be collected as part of the test results. It also includes a prefix to make it easier to identify: `[region]-[chunk]-[user]-[iteration]-[name].png`. Tests are broken up into chunks, and within each chunk users and iterations are numbered starting at 0. So for example `us-east-1-123-0-0-MyHomePage.png` would be chunk id 123, first user, first iteration, image name `MyHomePage`.
+One command that has no `testable-utils` equivalent is `await browser.testableScreenshot(name)`. This command takes a screenshot and puts it in the output directory to be collected as part of the test results. It also includes a prefix to make it easier to identify: `[region]-[chunk]-[user]-[iteration]-[name].png`. Tests are broken up into chunks, and within each chunk users and iterations are numbered starting at 0. So for example `us-east-1-123-0-0-MyHomePage.png` would be chunk id 123, first user, first iteration, image name `MyHomePage`.
 
 ### Command Mappings
 
