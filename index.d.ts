@@ -7,11 +7,11 @@ declare namespace testableUtils {
 
     function init(): void;
 
-    function execute(func: Function)
+    function execute(func: Function);
 
-    function stopwatch(code: Function, metricName?: string, resource?: string)
+    function stopwatch(code: Function, metricName?: string, resource?: string);
 
-    function waitForFinish(): Promise<void>
+    function waitForFinish(): Promise<void>;
 
     function describe(suiteName: string, fn: Function): Promise<void>;
 
@@ -42,53 +42,53 @@ declare namespace testableUtils {
         indexed: Array<any>;
     }
     interface DataTable{
-        get(i: number): Promise<DataRow>
-        random(): Promise<DataRow>
-        next(options?: object): Promise<Array<DataRow>>
+        get(i: number): Promise<DataRow>;
+        random(): Promise<DataRow>;
+        next(options?: object): Promise<Array<DataRow>>;
     }
     var dataTable: {
-        open(name: string): DataTable
+        open(name: string): DataTable;
     };
 
 
     interface Chunk {
-        id: number,
-        executionType: string,
-        agent: string,
-        createdAt: Date,
-        updatedAt: Date,
-        startedAt: Date,
-        concurrentClients: number
+        id: number;
+        executionType: string;
+        agent: string;
+        createdAt: Date;
+        updatedAt: Date;
+        startedAt: Date;
+        concurrentClients: number;
     }
     interface Execution {
-        id: number,
-        createdAt: Date,
-        updatedAt: Date,
-        startedAt: Date,
-        concurrentClients: number
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        startedAt: Date;
+        concurrentClients: number;
     }
     interface Region {
-        id: number,
-        createdAt: Date,
-        updatedAt: Date,
-        name: string,
-        public: boolean,
-        latitude: number,
-        longitude: number,
-        description: string,
-        active: boolean
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        name: string;
+        public: boolean;
+        latitude: number;
+        longitude: number;
+        description: string;
+        active: boolean;
     }
     var info: {
-        expectedFinishTimestamp: number,
-        iteration: number,
-        client: number,
-        globalClientIndex: number,
-        regionalClientIndex: number,
-        chunk: Chunk,
-        agent: string,
-        execution: Execution,
-        region: Region,
-        outputDir: string
+        expectedFinishTimestamp: number;
+        iteration: number;
+        client: number;
+        globalClientIndex: number;
+        regionalClientIndex: number;
+        chunk: Chunk;
+        agent: string;
+        execution: Execution;
+        region: Region;
+        outputDir: string;
     }
 
 
@@ -115,7 +115,7 @@ declare namespace testableUtils {
         markAsSuccess(): void;
         markAsFailure(): void;
 
-        data: { resource: string, url: string },
+        data: { resource: string, url: string };
     }
     interface ResultOptions {
         namespace?: string;
@@ -143,9 +143,7 @@ declare namespace testableUtils {
 
 }
 
-declare module "testable-utils" {
-    export = testableUtils
-}
+export = testableUtils
 
 declare global {
     namespace WebdriverIO {
@@ -155,9 +153,9 @@ declare global {
             testableLogFatal: (message?: any) => any;
             testableLogInfo: (message?: any) => any;
             testableLogTrace: (message?: any) => any;
-            testableCsvGet: (name: string, index: number) => Promise<testableUtils.DataRow>
+            testableCsvGet: (name: string, index: number) => Promise<testableUtils.DataRow>;
             testableCsvRandom: (name: string) => Promise<testableUtils.DataRow>;
-            testableCsvNext: (name: string, options?: any) => Promise<Array<testableUtils.DataRow>>
+            testableCsvNext: (name: string, options?: any) => Promise<Array<testableUtils.DataRow>>;
             testableResult: (resource?: string, url?: string) => any;
             testableTiming: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
             testableCounter: (result: any, options: testableUtils.ResultOptions) => Promise<void>;
@@ -177,8 +175,4 @@ declare global {
             testableWaitForFinish: () => Promise<void>;
         }
     }
-}
-
-declare module "webdriverio/sync" {
-    export = WebdriverIO
 }
