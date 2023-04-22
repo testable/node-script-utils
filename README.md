@@ -65,7 +65,7 @@ Keep track of a counter across test execution. Namespace defaults `User`. Increm
 For example:
 
 ```javscript
-var results = require('testable-utils').results;
+const results = require('testable-utils').results;
 
 results().counter('slowRequests', 1, 'requests');
 results().counter({ namespace: 'User', name: 'fastRequests', val: 2, units: 'requests' });
@@ -83,7 +83,7 @@ Capture a timing. Namespace defaults to `User`. Units defaults to `ms`. Resource
 For example:
 
 ```javscript
-var results = require('testable-utils').results;
+const results = require('testable-utils').results;
 
 results('Google Homepage', 'https://www.google.com').timing('pageLoadMs', 1294);
 results().timing({ namespace: 'User', name: 'latencyMs', val: 196, units: 'ms' });
@@ -101,7 +101,7 @@ Capture a histogram. Namespace defaults to `User`. Increment defaults to 1. Reso
 For example:
 
 ```javscript
-var results = require('testable-utils').results;
+const results = require('testable-utils').results;
 
 results().histogram('httpResponseCodes', 200);
 results().histogram({ namespace: 'User', name: 'bandwidthByType', key: 'text/html', val: 1928 });
@@ -144,9 +144,8 @@ results.barrier(name, [value]);
 For example:
 
 ```javascript
-results.barrier('Login').then(function() {
-	// continue executing after all users reach the "Login" barrier.
-})
+await results.barrier('Login');
+// continue executing after all users reach the "Login" barrier.
 ```
 
 Optionally accepts a ```value``` as the second parameter if you do not expect all concurrent users globally to reach this barrier.
@@ -163,12 +162,11 @@ Read the current value of a metric aggregated across the entire test execution.
 For example to read the current value of the ```Slow Requests``` custom counter metric:
 
 ```javascript
-results.get('Slow Requests').then(function(value) {
-	// use the value here
-});
-results.get({ namespace: 'User', name: 'Slow Requests' }).then(function(value) {
-	// use the value here
-});
+let value = await results.get('Slow Requests');
+// use the value here
+
+value = results.get({ namespace: 'User', name: 'Slow Requests' });
+// use the value here
 ```
 
 #### Wait for metric value
@@ -194,9 +192,8 @@ For example to wait on the value of the counter `Slow Requests` to be >= 2:
 
 ```javascript
 results().counter('Slow Requests', 1, 'requests');
-results.waitForValue({ namespace: 'User', name: 'Slow Requests', value: 2, timeout: 10000 }).then(function() {
-	// called when the metric reaches at least 2 aggregated across the test execution or immediately when run locally or in a smoke test
-});
+await results.waitForValue({ namespace: 'User', name: 'Slow Requests', value: 2, timeout: 10000 });
+// called when the metric reaches at least 2 aggregated across the test execution or immediately when run locally or in a smoke test
 ```
 
 ### Stopwatch
@@ -206,15 +203,14 @@ Utility API to time how long a piece of code takes to execute and capture as a T
 For example:
 
 ```javascript
-var stopwatch = require('testable-utils').stopwatch;
+const stopwatch = require('testable-utils').stopwatch;
 
-stopwatch(function(done) {
+await stopwatch(function(done) {
   // some code we want to time here
   // call done() once it is done, can be async
   done();
-}, { namespace: 'User', name: 'myCustomTimer' }).then(function() {
-	// called after done() is invoked
-});
+}, { namespace: 'User', name: 'myCustomTimer' });
+// called after done() is invoked
 ```
 
 ### Logging
@@ -224,7 +220,7 @@ By default all Webdriver.io output to `stdout` and `stderr` is logged at the `de
 Examples:
 
 ```javascript
-var log = require('testable-utils').log;
+const log = require('testable-utils').log;
 
 log.trace("This will only be captured during a smoke test or when run locally");
 log.debug("Some useful debug");
@@ -243,10 +239,10 @@ Accessible at:
 
 ```javascript
 // Information on chunk, concurrent client, execution, data stores, iteration, etc
-var info = require('testable-utils').info;
+const info = require('testable-utils').info;
 
 // true when run locally, false when run on testable
-var isLocal = require('testable-utils').isLocal;
+const isLocal = require('testable-utils').isLocal;
 ```
 
 ### CSV
@@ -271,15 +267,13 @@ See the [Testable documentation](https://testable.io/documentation/scripts/uploa
 Gets a row from the CSV file by index. **Indices start at 1**. `get()` return a `Promise`.
 
 ```javascript
-var dataTable = require('testable-utils').dataTable;
-dataTable
+const dataTable = require('testable-utils').dataTable;
+const result = await dataTable
 	.open('data.csv')
-	.get(1)
-	.then(function(result) {
-		// Example:
-		// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
-		console.log('Symbol: ' + result.data['Symbol']);
-	});
+	.get(1);
+// Example:
+// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+console.log('Symbol: ' + result.data['Symbol']);
 ```
 
 #### Get random row
@@ -287,15 +281,13 @@ dataTable
 Gets a random row from the CSV file. `random()` return a `Promise`.
 
 ```javascript
-var dataTable = require('testable-utils').dataTable;
-dataTable
+const dataTable = require('testable-utils').dataTable;
+const result = await dataTable
 	.open('data.csv')
-	.random()
-	.then(function(result) {
-		// Example:
-		// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
-		console.log('Symbol: ' + result.data['Symbol']);
-	});
+	.random();
+// Example:
+// { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] }
+console.log('Symbol: ' + result.data['Symbol']);
 ```
 
 #### Iterate CSV
@@ -307,15 +299,13 @@ The `next()` function takes an optional `options` object that supports the follo
 * `rows`: The number of rows to return. Defaults to 1.
 
 ```javascript
-var dataTable = require('testable-utils').dataTable;
-dataTable
+const dataTable = require('testable-utils').dataTable;
+const results = await dataTable
 	.open('data.csv')
-	.next({ rows: 1 })
-	.then(function(results) {
-		// Example:
-		// [ { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] } ]
-		console.log('Symbol: ' + results[0].data['Symbol']);
-	});
+	.next({ rows: 1 });
+// Example:
+// [ { index: 1, data: { Symbol: 'MSFT', Price: '100' }, indexed: [ 'MSFT', '100' ] } ]
+console.log('Symbol: ' + results[0].data['Symbol']);
 ```
 
 ### Async Code
@@ -327,7 +317,7 @@ When running a Node.js script on Testable and use a 3rd party module that perfor
 For other async code use the below.
 
 ```javascript
-var execute = require('testable-utils').execute;
+const execute = require('testable-utils').execute;
 execute(function(finished) {
 	// my async code here, call finished() when done
 	// ...
@@ -344,15 +334,15 @@ For local testing and smoke testing on Testable, you can also trigger the event 
 Example (Node.js):
 
 ```javascript
-const request = require('request');
+const axios = require('axios');
 const testableUtils = require('testable-utils');
 const fireNow = testableUtils.isLocal || testableUtils.isSmokeTest;
 const events = testableUtils.events;
 const execute = testableUtils.execute;
 
-execute(function(finished) {
-  events.on('my-event', function(symbol) {
-    request.get('http://sample.testable.io/stocks/' + symbol);
+execute((finished) => {
+  events.on('my-event', async (symbol) => {
+    axios.get(`http://sample.testable.io/stocks/${symbol}`);
     events.finish()
     finished();
   });
@@ -420,16 +410,15 @@ For tests configured for a set number of iterations the promise resolved immedia
 
 ```
 const testableUtils = require('testable-utils');
-testableUtils.waitForFinish().then(() => {
-	console.log('finished!');
-});
+await testableUtils.waitForFinish();
+console.log('finished!');
 ```
 
 ## Webdriver.io Commands
 
 All of the API calls above are registered as <a target="_blank" href="http://webdriver.io/guide/usage/customcommands.html">custom commands</a> with Webdriver.io.
 
-Simply include `var testableUtils = require('testable-utils');` in you test spec or in one of the <a target="_blank" href="http://webdriver.io/guide/testrunner/configurationfile.html">configuration file hooks</a> like `onPrepare()` and all the below custom commands will automatically get registered.
+Simply include `const testableUtils = require('testable-utils');` in you test spec or in one of the <a target="_blank" href="http://webdriver.io/guide/testrunner/configurationfile.html">configuration file hooks</a> like `onPrepare()` and all the below custom commands will automatically get registered.
 
 Note that all the Webdriver.io commands can be used in a synchronous fashion.
 
@@ -449,31 +438,28 @@ One command that has no `testable-utils` equivalent is `await browser.testableSc
 		<td><a href="#execution-info"><pre>info</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result =
+		<td><pre>const result =
   browser.testableCsvGet(csvFile, index);</pre></td>
-		<td><a href="#get-row-by-index"><pre>dataTable
+		<td><a href="#get-row-by-index"><pre>const result = await dataTable
   .open(csvFile)
-  .get(index)
-  .then(function(result) { ... }</pre></a></td>
+  .get(index);</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result =
+		<td><pre>const result =
   browser.testableCsvRandom(csvFile);</pre></td>
-		<td><a href="#get-random-row"><pre>dataTable
+		<td><a href="#get-random-row"><pre>const result = await dataTable
   .open(csvFile)
-  .random()
-  .then(function(result) { ... }</pre></a></td>
+  .random();</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var results =
+		<td><pre>const results =
   browser.testableCsvNext(csvFile[, options]);</pre></td>
-		<td><a href="#get-random-row"><pre>dataTable
+		<td><a href="#get-random-row"><pre>const result = await dataTable
   .open(csvFile)
-  .random([options])
-  .then(function(results) { ... }</pre></a></td>
+  .random([options]);</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result =
+		<td><pre>const result =
   browser.testableResult([resource], [url]);
 browser.testableCounter(
   result,
@@ -484,7 +470,7 @@ browser.testableCounter(
   .counter(name, [increment], [units]);</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result =
+		<td><pre>const result =
   browser.testableResult([resource], [url]);
 browser.testableTiming(
   result,
@@ -495,7 +481,7 @@ browser.testableTiming(
   .timing(name, timing, [units]);</pre></a></td>
 	</tr>
 	<tr>
-		<td><pre>var result =
+		<td><pre>const result =
   browser.testableResult([resource], [url]);
 browser.testableHistogram(
   result,
@@ -539,7 +525,7 @@ browser.testableHistogram(
 	</tr>
 	<tr>
 		<td><pre>browser.testableWaitForFinish();</pre></td>
-		<td><a href="#wait-for-finish"><pre>testableUtils.waitForFinish().then(() => { });</pre></a></td>
+		<td><a href="#wait-for-finish"><pre>await testableUtils.waitForFinish();</pre></a></td>
 	</tr>
 	<tr>
 		<td><pre>browser.testableBarrier(name, [value]);</pre></td>
