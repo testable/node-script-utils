@@ -182,7 +182,7 @@ If you use the ```incrementAndWaitForValue``` variation it will first increment 
 
 The options object can include:
 
-* `namespace`: Namespace of the metric. Defaults to `Testable` for system metrics and `User` otherwise.
+* `namespace`: Namespace of the metric. Defaults to `User`. If you are referring to a Testable system metric, you must set this to `Testable`.
 * `name`: Metric name
 * `value`: The value the metric must be greater than or equal to before the Promise resolves successfully. Required.
 * `timeout`: Optional timeout (in milliseconds) after which to fail and stop waiting. Defaults to 0 (i.e. no timeout).
@@ -191,7 +191,7 @@ The options object can include:
 For example to wait on the value of the counter `Slow Requests` to be >= 2:
 
 ```javascript
-results().counter('Slow Requests', 1, 'requests');
+await results().counter('Slow Requests', 1, 'requests');
 await results.waitForValue({ namespace: 'User', name: 'Slow Requests', value: 2, timeout: 10000 });
 // called when the metric reaches at least 2 aggregated across the test execution or immediately when run locally or in a smoke test
 ```
